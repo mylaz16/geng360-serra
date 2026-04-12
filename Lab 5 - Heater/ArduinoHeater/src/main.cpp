@@ -16,6 +16,10 @@
 // Digital Pin for the heater relay
 int heater_pin = 2; // Pin for the heater
 
+// Temperature thresholds for heater control
+#define TEMP_LOW 38.0  // Turn on heater if temperature drops below this
+#define TEMP_HIGH 42.0 // Turn off heater if temperature rises above this
+
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
 OneWire oneWire(ONE_WIRE_BUS);
 
@@ -60,6 +64,7 @@ void setup(){
 }
 
 void loop() {
+
   unsigned long currentMillis = millis();
   unsigned long elapsedTime = currentMillis - previousMillis;
   
@@ -106,18 +111,16 @@ void loop() {
     Serial.print(",");
     Serial.println(loadvoltage);
 
-    // Heater control logic only if the temperature is valid
+    //Heater control logic only if the temperature is valid
     if (validTemperature) {
 
       // Complete this heater control control logic
-
-      if () { 
-
+      if (tempC < TEMP_LOW) { 
+        digitalWrite(heater_pin, HIGH); // Turn on heater
       } 
-      else if () { 
-        
-
+      else if (tempC > TEMP_HIGH) { 
+        digitalWrite(heater_pin, LOW); // Turn off heater
       }
     }
-  }
+ }
 }
